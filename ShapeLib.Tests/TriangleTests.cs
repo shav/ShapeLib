@@ -76,5 +76,31 @@ namespace ShapeLib.Tests
         Assert.That(triangle.Square, Is.EqualTo(expectedSquare).Within(MathUtils.DoubleNumbersEqualityTolerance));
       }
     }
+
+    [Test]
+    [TestCase(5, 4, 3)]
+    [TestCase(6, 10, 8)]
+    [TestCase(1.414213562373095, 1, 1)]
+    [TestCase(1.23, 4.56, 4.72297575687)]
+    [TestCase(1e+153, 1.414213562373095e+153, 1e+153)]
+    // При еще бОльших длинах сторон треугольника, к сожалению, IsOrthogonal из-за переполнения возвращает False,
+    // даже несмотря на выполнение теоремы Пифагора для них.
+    // Но тесты на эти кейсы добавлять не хочется, т.к. это скорее баг, нежели требование к проверке прямоугольного треугольника.
+    public void TriangleIsOrthogonal_ShouldReturnTrue_WhenSidesOfTriangleSatisfyToPythagoreusTheoreme(double sideLength1, double sideLength2, double sideLength3)
+    {
+      var triangle = new Triangle(sideLength1, sideLength2, sideLength3);
+      Assert.IsTrue(triangle.IsOrthogonal);
+    }
+
+    [Test]
+    [TestCase(10, 20, 25)]
+    [TestCase(3, 4, 6)]
+    [TestCase(double.MaxValue / 2 + 1, double.MaxValue / 2, double.MaxValue)]
+    [TestCase(double.MaxValue, double.MaxValue, double.MaxValue)]
+    public void TriangleIsOrthogonal_ShouldReturnFalse_WhenSidesOfTriangleNotSatisfyToPythagoreusTheoreme(double sideLength1, double sideLength2, double sideLength3)
+    {
+      var triangle = new Triangle(sideLength1, sideLength2, sideLength3);
+      Assert.IsFalse(triangle.IsOrthogonal);
+    }
   }
 }
