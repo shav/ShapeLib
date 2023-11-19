@@ -64,5 +64,17 @@ namespace ShapeLib.Tests
       var triangle = new Triangle(sideLength1, sideLength2, sideLength3);
       Assert.AreEqual(double.PositiveInfinity, triangle.Square);
     }
+
+    [Test]
+    public void TriangleSquare_ShouldBeImmutable_WhenGetMultipleTimes()
+    {
+      const double expectedSquare = 6;
+      var triangle = new Triangle(3, 4, 5);
+
+      for (int i = 0; i < 10; i++)
+      {
+        Assert.That(triangle.Square, Is.EqualTo(expectedSquare).Within(MathUtils.DoubleNumbersEqualityTolerance));
+      }
+    }
   }
 }

@@ -51,9 +51,20 @@ namespace ShapeLib.Tests
     [TestCase(1.2345678e+200)]
     public void GetCircleSquare_ShouldReturnOverflowedValue_WhenCircleRadiusIsLarge(double radius)
     {
-      var ddd = Math.Sqrt(double.MaxValue) / Math.PI;
       var circle = new Circle(radius);
       Assert.AreEqual(double.PositiveInfinity, circle.Square);
+    }
+
+    [Test]
+    public void CircleleSquare_ShouldBeImmutable_WhenGetMultipleTimes()
+    {
+      const double expectedSquare = Math.PI;
+      var circle = new Circle(1);
+      
+      for (int i = 0; i < 10; i++)
+      {
+        Assert.That(circle.Square, Is.EqualTo(expectedSquare).Within(MathUtils.DoubleNumbersEqualityTolerance));
+      }
     }
   }
 }
