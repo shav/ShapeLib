@@ -25,33 +25,45 @@ namespace ShapeLib
     /// </summary>
     public double SideLength3 { get; }
 
+    private bool? isOrthogonal;
+
     /// <summary>
     /// Признак того, что треугольник является прямоугольным.
     /// </summary>
-    public bool IsOrthogonal 
-    { 
-      get
-      {
-        Span<double> sideLengths = stackalloc double[3] { this.SideLength1, this.SideLength2, this.SideLength3 };
-        sideLengths.Sort();
-        double cathet1 = sideLengths[0], cathet2 = sideLengths[1], hypothenuse = sideLengths[2];
-        return Math.Pow(cathet1, 2) + Math.Pow(cathet2, 2) == Math.Pow(hypothenuse, 2);
-      }
-    }
+    public bool IsOrthogonal => this.isOrthogonal ??= CheckIsOrthogonalByPythagoreanTheorem(this);
 
-    // ВОПРОС: На сколько часто в реальном приложении предполагается обращение к площади одного и того же треугольника?
-    // Если часто, то стоит закешировать вычисленный результат.
+    private double? square;
 
     /// <summary>
     /// Площадь треугольника.
     /// </summary>
-    public override double Square
+    public override double Square => this.square ??= CalculateSquareBySidesLength(this);
+
+    /// <summary>
+    /// Вычислить площадь треугольника по трём сторонам (по формуле Герона).
+    /// </summary>
+    /// <param name="triangle">Треугольник.</param>
+    /// <returns>Площадь треугольника.</returns>
+    private static double CalculateSquareBySidesLength(Triangle triangle)
     {
-      get
-      {
-        var semiPerimeter = (this.SideLength1 + this.SideLength2 + this.SideLength3) / 2;
-        return Math.Sqrt(semiPerimeter * (semiPerimeter - this.SideLength1) * (semiPerimeter - this.SideLength2) * (semiPerimeter - this.SideLength3));
-      }
+      var semiPerimeter = (triangle.SideLength1 + triangle.SideLength2 + triangle.SideLength3) / 2;
+      return Math.Sqrt(semiPerimeter *
+        (semiPerimeter - triangle.SideLength1) *
+        (semiPerimeter - triangle.SideLength2) *
+        (semiPerimeter - triangle.SideLength3));
+    }
+
+    /// <summary>
+    /// Проверить является ли треугольник прямоугольным.
+    /// </summary>
+    /// <param name="triangle">Треугольник.</param>
+    /// <returns>True - если треугольник является прямоугольным, False - иначе.</returns>
+    private static bool CheckIsOrthogonalByPythagoreanTheorem(Triangle triangle)
+    {
+      Span<double> sideLengths = stackalloc double[3] { triangle.SideLength1, triangle.SideLength2, triangle.SideLength3 };
+      sideLengths.Sort();
+      double cathet1 = sideLengths[0], cathet2 = sideLengths[1], hypothenuse = sideLengths[2];
+      return Math.Pow(cathet1, 2) + Math.Pow(cathet2, 2) == Math.Pow(hypothenuse, 2);
     }
 
     // ВОПРОС: Кажется немного странноватым описывать треугольник с помощью длин его сторон.
