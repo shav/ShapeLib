@@ -51,11 +51,11 @@
     /// <returns>Площадь треугольника.</returns>
     private static double CalculateSquareBySidesLength(Triangle triangle)
     {
-      var semiPerimeter = (triangle.SideLength1 + triangle.SideLength2 + triangle.SideLength3) / 2;
-      return Math.Sqrt(semiPerimeter *
-        (semiPerimeter - triangle.SideLength1) *
-        (semiPerimeter - triangle.SideLength2) *
-        (semiPerimeter - triangle.SideLength3));
+      var semiPerimeter = triangle.SideLength1 / 2 + triangle.SideLength2 / 2 + triangle.SideLength3 / 2;
+      return Math.Sqrt(semiPerimeter) *
+        Math.Sqrt(semiPerimeter - triangle.SideLength1) *
+        Math.Sqrt(semiPerimeter - triangle.SideLength2) *
+        Math.Sqrt(semiPerimeter - triangle.SideLength3);
     }
 
     /// <summary>
