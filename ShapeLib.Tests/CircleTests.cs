@@ -46,10 +46,8 @@ namespace ShapeLib.Tests
     [TestCaseSource(nameof(CircleSquareTestCases))]
     public void GetCircleSquare_ShouldReturnRightValue((double radius, double expectedSquare) args)
     {
-      const double tolerance = 1e-10;
-
       var circle = new Circle(args.radius);
-      Assert.That(circle.Square, Is.EqualTo(args.expectedSquare).Within(tolerance));
+      Assert.That(circle.Square, Is.EqualTo(args.expectedSquare).Within(MathUtils.DoubleNumbersEqualityTolerance));
     }
   }
 }
