@@ -68,7 +68,7 @@
       Span<double> sideLengths = stackalloc double[3] { triangle.SideLength1, triangle.SideLength2, triangle.SideLength3 };
       sideLengths.Sort();
       double cathet1 = sideLengths[0], cathet2 = sideLengths[1], hypothenuse = sideLengths[2];
-      return MathUtils.IsApproximatelyEqual(Math.Pow(cathet1, 2) + Math.Pow(cathet2, 2), Math.Pow(hypothenuse, 2));
+      return MathUtils.IsApproximatelyEqual(Math.Sqrt(Math.Pow(cathet1, 2) + Math.Pow(cathet2, 2)), hypothenuse);
     }
 
     // ВОПРОС: Кажется немного странноватым описывать треугольник с помощью длин его сторон.
