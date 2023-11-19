@@ -1,4 +1,4 @@
-namespace ShapeLib
+﻿namespace ShapeLib
 {
   /// <summary>
   /// Круг.
@@ -24,6 +24,11 @@ namespace ShapeLib
     /// Площадь круга.
     /// </summary>
     public override double Square => Math.PI * Math.Pow(this.Radius, 2);
+
+    public override string ToString()
+    {
+      return $"Circle (radius = {this.Radius})";
+    }
 
     /// <summary>
     /// Создать круг.

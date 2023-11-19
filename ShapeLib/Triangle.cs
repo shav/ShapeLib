@@ -1,4 +1,4 @@
-namespace ShapeLib
+﻿namespace ShapeLib
 {
   /// <summary>
   /// Треугольник.
@@ -38,6 +38,11 @@ namespace ShapeLib
     /// Площадь треугольника.
     /// </summary>
     public override double Square => this.square ??= CalculateSquareBySidesLength(this);
+
+    public override string ToString()
+    {
+      return $"Triangle (side1 = {this.SideLength1}, side2 = {this.SideLength2}, side3 = {this.SideLength3})";
+    }
 
     /// <summary>
     /// Вычислить площадь треугольника по трём сторонам (по формуле Герона).

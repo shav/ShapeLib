@@ -1,4 +1,4 @@
-namespace ShapeLib
+﻿namespace ShapeLib
 {
   /// <summary>
   /// Геометрическая фигура.
