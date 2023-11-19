@@ -25,6 +25,20 @@ namespace ShapeLib
     /// </summary>
     public double SideLength3 { get; }
 
+    /// <summary>
+    /// Признак того, что треугольник является прямоугольным.
+    /// </summary>
+    public bool IsOrthogonal 
+    { 
+      get
+      {
+        Span<double> sideLengths = stackalloc double[3] { this.SideLength1, this.SideLength2, this.SideLength3 };
+        sideLengths.Sort();
+        double cathet1 = sideLengths[0], cathet2 = sideLengths[1], hypothenuse = sideLengths[2];
+        return Math.Pow(cathet1, 2) + Math.Pow(cathet2, 2) == Math.Pow(hypothenuse, 2);
+      }
+    }
+
     // ВОПРОС: На сколько часто в реальном приложении предполагается обращение к площади одного и того же треугольника?
     // Если часто, то стоит закешировать вычисленный результат.
 
