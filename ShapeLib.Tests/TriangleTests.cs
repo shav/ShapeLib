@@ -29,11 +29,23 @@ namespace ShapeLib.Tests
     }
 
     [Test]
-    [TestCase(0.00001, double.Epsilon, 0.1)]
     [TestCase(1, 2, 3)]
-    [TestCase(1, 2, double.MaxValue)]
+    [TestCase(10, 13, 25)]
+    [TestCase(10001, 12345, 7)]
+    [TestCase(1.5e+153, 2e+153, 1e+200)]
+    [TestCase(double.MaxValue, 10, 1)]
+    public void CreatingTriangle_ShouldThrowException_WhenSidesNotSatisfyTriangleInequality(double sideLength1, double sideLength2, double sideLength3)
+    {
+      Assert.Throws<ArgumentException>(() => new Triangle(sideLength1, sideLength2, sideLength3));
+    }
+
+    [Test]
+    [TestCase(0.00001, 0.1, 0.1)]
+    [TestCase(1, 2, 2.5)]
+    [TestCase(3000, 4000, 5000)]
+    [TestCase(1.5e+153, 2e+153, 1e+153)]
     [TestCase(double.MaxValue, double.MaxValue, double.MaxValue)]
-    public void CreatingTriangle_ShouldNotThrowException_WhenAllSideLengthsArePositive(double sideLength1, double sideLength2, double sideLength3)
+    public void CreatingTriangle_ShouldNotThrowException_WhenAllSideLengthsArePositiveAndSatisfyTriangleInequality(double sideLength1, double sideLength2, double sideLength3)
     {
       Assert.DoesNotThrow(() => new Triangle(sideLength1, sideLength2, sideLength3));
     }
@@ -95,7 +107,7 @@ namespace ShapeLib.Tests
     [Test]
     [TestCase(10, 20, 25)]
     [TestCase(3, 4, 6)]
-    [TestCase(double.MaxValue / 2 + 1, double.MaxValue / 2, double.MaxValue)]
+    [TestCase(5e+153, 3e+153, 7e+153)]
     [TestCase(double.MaxValue, double.MaxValue, double.MaxValue)]
     public void TriangleIsOrthogonal_ShouldReturnFalse_WhenSidesOfTriangleNotSatisfyToPythagoreusTheoreme(double sideLength1, double sideLength2, double sideLength3)
     {

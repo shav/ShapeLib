@@ -6,11 +6,6 @@
   public class Triangle : Shape
   {
     /// <summary>
-    /// Сообщение валидации о том, что стороны треугольника должны быть положительной длины.
-    /// </summary>
-    private const string SidePositiveValidationMessage = "Sides of triangle should be positive";
-
-    /// <summary>
     /// Длина первой стороны треугольника.
     /// </summary>
     public double SideLength1 { get; }
@@ -84,18 +79,67 @@
     /// <exception cref="ArgumentOutOfRangeException">Если указан сторона длиной меньше либо равной нулю.</exception>
     public Triangle(double sideLength1, double sideLength2, double sideLength3)
     {
-      if (sideLength1 <= 0)
-        throw new ArgumentOutOfRangeException(nameof(sideLength1), SidePositiveValidationMessage);
-      
-      if (sideLength2 <= 0)
-        throw new ArgumentOutOfRangeException(nameof(sideLength2), SidePositiveValidationMessage);
-
-      if (sideLength3 <= 0)
-        throw new ArgumentOutOfRangeException(nameof(sideLength3), SidePositiveValidationMessage);
+      TriangleValidator.ValidatePositiveSidesLength(sideLength1, sideLength2, sideLength3);
+      TriangleValidator.ValidateTriangleSidesLengthInequalityRule(sideLength1, sideLength2, sideLength3);
 
       this.SideLength1 = sideLength1;
       this.SideLength2 = sideLength2;
       this.SideLength3 = sideLength3;
+    }
+
+    /// <summary>
+    /// Валидатор настроек треугольника.
+    /// </summary>
+    private static class TriangleValidator
+    {
+      /// <summary>
+      /// Сообщение валидации о том, что стороны треугольника должны быть положительной длины.
+      /// </summary>
+      private const string SidePositiveValidationMessage = "Sides of triangle should be positive";
+
+      /// <summary>
+      /// Сообщение валидации о невыполнении неравенства треугольника между сторонами.
+      /// </summary>
+      private const string SidesLengthInequalityValidationMessage = "For any side of triangle its length should be less than sum of other sides length";
+
+      /// <summary>
+      /// Проверить, что все стороны треугольника имеют положителную длину.
+      /// </summary>
+      /// <param name="sideLength1">Длина первой стороны треугольника.</param>
+      /// <param name="sideLength2">Длина второй стороны треугольника.</param>
+      /// <param name="sideLength3">Длина третьей стороны треугольника.</param>
+      /// <exception cref="ArgumentOutOfRangeException">Если указан сторона длиной меньше либо равной нулю.</exception>
+      public static void ValidatePositiveSidesLength(double sideLength1, double sideLength2, double sideLength3)
+      {
+        if (sideLength1 <= 0)
+          throw new ArgumentOutOfRangeException(nameof(sideLength1), SidePositiveValidationMessage);
+
+        if (sideLength2 <= 0)
+          throw new ArgumentOutOfRangeException(nameof(sideLength2), SidePositiveValidationMessage);
+
+        if (sideLength3 <= 0)
+          throw new ArgumentOutOfRangeException(nameof(sideLength3), SidePositiveValidationMessage);
+      }
+
+      /// <summary>
+      /// Проверить соотношение между сторонами треугольника:
+      /// длина каждой стороны треугольника не должна превышать сумму длин двух других сторон.
+      /// </summary>
+      /// <param name="sideLength1">Длина первой стороны треугольника.</param>
+      /// <param name="sideLength2">Длина второй стороны треугольника.</param>
+      /// <param name="sideLength3">Длина третьей стороны треугольника.</param>
+      /// <exception cref="ArgumentException">Если соотношение между сторонами треугольника не выполняется.</exception>
+      public static void ValidateTriangleSidesLengthInequalityRule(double sideLength1, double sideLength2, double sideLength3)
+      {
+        if (sideLength1 >= sideLength2 + sideLength3)
+          throw new ArgumentException(SidesLengthInequalityValidationMessage);
+
+        if (sideLength2 >= sideLength1 + sideLength3)
+          throw new ArgumentException(SidesLengthInequalityValidationMessage);
+
+        if (sideLength3 >= sideLength1 + sideLength2)
+          throw new ArgumentException(SidesLengthInequalityValidationMessage);
+      }
     }
   }
 }
