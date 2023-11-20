@@ -1,8 +1,8 @@
 ﻿using ShapeLib;
 
-var circle = new Circle(10);
-var orthogonalTriangle = new Triangle(3, 4, 5);
-var regularTriangle = new Triangle(2, 3, 4);
+var circle = new Circle(radius: 10);
+var orthogonalTriangle = new Triangle(sideLength1: 3, sideLength2: 4, sideLength3: 5);
+var regularTriangle = new Triangle(sideLength1: 2, sideLength2: 3, sideLength3: 4);
 
 var shapes = new Shape[] { circle, regularTriangle, orthogonalTriangle };
 
