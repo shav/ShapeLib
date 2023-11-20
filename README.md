@@ -27,3 +27,46 @@ var square = triangle.Square;
 ```csharp
 triangle.IsOrthogonal;
 ```
+
+## Разработка кастомных фигур
+Для того, чтобы создать свою геометрическую фигуру, используя библиотеку ShapeLib, нужно отнаследовать класс кастомной фигуры от базового класса геометрических фигур **Shape** и переопределить свойство для получения площади фигуры **Square**.
+```csharp
+/// <summary>
+/// Геометрическая фигура "Прямоугольник".
+/// </summary>
+public class Rectangle : Shape
+{
+  /// <summary>
+  /// Ширина.
+  /// </summary>
+  public double Width { get; }
+  
+  /// <summary>
+  /// Высота.
+  /// </summary>
+  public double Height { get; }
+  
+  /// <summary>
+  /// Площадь фигуры.
+  /// </summary>
+  public override double Square => this.Width * this.Height;
+  
+  /// <summary>
+  /// Создать прямоугольник.
+  /// </summary>
+  /// <param name="width">Ширина.</param>
+  /// <param name="height">Высота.</param>
+  /// <exception cref="ArgumentOutOfRangeException">Если стороны прямоугольника меньше либо равны нулю.</exception>
+  public Rectangle(double width, double height)
+  {
+    if (width <= 0)
+      throw new ArgumentOutOfRangeException(nameof(width), "Width of rectangle should be positive");
+    
+    if (height <= 0)
+      throw new ArgumentOutOfRangeException(nameof(height), "Height of rectangle should be positive");
+  
+    this.Width = width;
+    this.Height = height;
+  }
+}
+```
